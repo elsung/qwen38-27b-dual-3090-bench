@@ -12,7 +12,7 @@ The headline numbers across all tested configs:
 | **Qwen3.8-27B huihui abliterated** | UD-Q4_K_XL v2.x (17.4 GiB) | llama.cpp b10753 | 262K native | **70–96** | **278** | **77%** |
 | Unsloth Dynamic v3.0 UD-Q4_K_XL | 17.6 GiB | llama.cpp b10753 | 262K native | 88 | — | 60% |
 | Unsloth Dynamic v3.0 UD-Q4_K_M | 16.5 GiB | llama.cpp b10753 | 262K native | 89 | — | 67% |
-| **Qwen3.8 Flash-Next FP8** | 28.8 GiB FP8 | vLLM 0.22.1 | 16K (default) | **50–80** | **94** | **13%** |
+| \*\*Qwen3.8-27B FP8 dense (was mislabeled Flash-Next)\*\* | 28.8 GiB FP8 | vLLM 0.22.1 | 16K (default) | **50–80** | **94** | **13%** |
 | Qwen3.8 Flash-Next FP8 | 28.8 GiB FP8 | llama.cpp Inovello b10753 | 16K | 3.86 | — | — |
 
 **Bottom line**: huihui abliterated + CoD prompt is the recommended default for math/reasoning workloads on dual 3090. Flash-Next via vLLM Docker is the recommended runtime for **multi-user concurrent** workloads.
@@ -32,7 +32,7 @@ The headline numbers across all tested configs:
 | 32,768 t | 128 | 57.2 | 32K context starts to bite |
 | 32,768 t | 1,024 | 61.1 | |
 
-### Qwen3.8 Flash-Next (FP8, vLLM Docker, 16K context)
+### Qwen3.8-27B FP8 dense (vLLM Docker, 16K) — corrected from "Flash-Next"
 
 | Prompt size | max_tokens | Decode t/s (c=1) | Decode t/s (c=2 aggregate) | Decode t/s (c=4 aggregate) |
 |---:|---:|---:|---:|---:|

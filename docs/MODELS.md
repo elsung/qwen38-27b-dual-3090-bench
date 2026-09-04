@@ -55,7 +55,9 @@ Switch to the `Local Huihui Qwen3.8-27B Abliterated (Tensor-Split + CoD)` connec
   "include_reasoning": true
 }
 For prose / roleplay (no CoD), use the original profile without `use_sysprompt: true` (the model's default behavior is fine for verbose creative writing).
-## Qwen3.8 Flash-Next (FP8) via vLLM
+## Qwen3.8-27B FP8 dense via vLLM
+
+> **Correction 2026-09-04**: previously mislabeled "Flash-Next". The 28.75 GiB FP8 checkpoint is the dense 27B. The real Flash-Next is a 176B MoE (124 GiB GGUF) that runs at ~4 t/s on llama.cpp only.
 **The recommended runtime for Flash-Next.** vLLM's expert parallelism + Paged Attention is 15× faster than llama.cpp on this hardware.
 # Launcher: scripts/start-qwen38-flashnext.sh
 # Uses vllm-openai Docker image, FP8 model, MTP spec decoding

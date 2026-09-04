@@ -26,19 +26,31 @@ bash scripts/start-huihui-27b-abliterated.sh
 HUIHUI_CTX_SCALE=1 bash scripts/start-huihui-27b-abliterated.sh
 ```
 
-### Qwen3.8 Flash-Next (multi-user / concurrent) 
+### Qwen3.8-27B FP8 dense via vLLM (multi-user / concurrent)
+
+*(Correction 2026-09-04: this was previously mislabeled "Flash-Next" — the 28.75 GiB checkpoint is the dense 27B in FP8, not the 176B MoE.)*
 
 | Setting | Value |
 |---|---|
-| **Quant** | FP8, 28.8 GiB |
-| **Runtime** | **vLLM Docker** (NOT llama.cpp — 15× slower there) |
+| **Quant** | FP8, 28.8 GiB — same dense 27B as huihui, different runtime |
+| **Runtime** | **vLLM Docker** (beats llama.cpp on batch; llama.cpp wins single-stream Q4) |
 | **Context** | 16K default; 64K+ OOMs on dual 24 GiB |
 | **Speed** | 50-80 t/s single, **94 t/s aggregate @ c=4** |
-| **Accuracy** | 13% GSM8K+CoD — CoD doesn't help the MoE like the dense 27B |
+| **Accuracy** | 13% GSM8K+CoD (CoD helps the Q4-GGUF path far more) |
 
 ```bash
 VLLM_CONTEXT=16384 bash scripts/start-qwen38-flashnext.sh   # 1M needs 80GB+ VRAM
 ```
+
+### Qwen3.8 Flash-Next — the actual 176B MoE (research only on this hardware)
+
+| Setting | Value |
+|---|---|
+| **What it is** | 176B-param MoE (~6B active), Qwen4-arch preview — NOT the 27B above |
+| **On disk** | UD-Q4_K_XL GGUF, **124 GiB** (+ 87 GiB IQ4_XS backup) |
+| **Runtime** | llama.cpp only (Inovello b10753): `--n-cpu-moe 40 --moe-expert-cache 16` |
+| **Speed** | **~4 t/s** (CPU-RAM-bound expert streaming; vLLM image lacks this MoE's weights) |
+| **Verdict** | Not usable for daily work on dual 24 GiB. Needs ≥80 GiB VRAM for vLLM FP8. |
 
 ### GLM-5.3-Flash — not yet loadable (waiting on llama.cpp PR #27752)
 
