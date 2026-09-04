@@ -134,3 +134,82 @@ If the model returns a coherent answer in <60s, YaRN is working.
 - [ ] Run GSM8K at full 262K native context (memory pressure on KV cache)
 - [ ] llama.cpp `--rope-scaling yarn` with Qwen3.8's mrope_section (text-only)
 - [ ] Hyprid llama.cpp + mamba SSM hybrid attention (Qwen3.8 uses Gated DeltaNet + Gated Attention)
+
+---
+
+## Offloading context to RAM / disk (alternative path to 1M)
+
+llama.cpp `--kv-offload` (default ON since b10753) automatically moves KV cache to host RAM when GPU runs out. With `--load-mode mlock` you can pin model weights in RAM (preventing them from being swapped out under pressure). This lets you push context to 1M on rigs with 60+ GiB RAM even on 24 GiB GPUs.
+
+### Hardware we tested on
+
+- **RAM**: 125 GiB DDR4 (60 GiB free at idle)
+- **Swap**: 126 GiB zram (compressed-RAM swap) + 17 GiB file swap on SSD
+- **GPU**: 2× RTX 3090 (24 GiB each)
+- **Optane**: not present, but zram is functionally equivalent (often faster for KV-cache-heavy workloads)
+
+Total effective memory for KV spillover: **~200 GiB**.
+
+### Per-runtime strategy
+
+#### huihui 27B on llama.cpp
+
+```bash
+# 262K (native) — KV stays in HBM
+HUIHUI_CTX_SCALE=1 bash scripts/start-huihui-27b-abliterated.sh
+
+# 1M via YaRN — KV spills to RAM/zram
+HUIHUI_CTX_SCALE=4 bash scripts/start-huihui-27b-abliterated.sh
+
+# Pin model weights in RAM (recommended at >500K context)
+HUIHUI_CTX_SCALE=4 bash scripts/start-huihui-27b-abliterated.sh --load-mode mlock
+```
+
+VRAM budget:
+- Model weights (q4 GGUF): ~10 GiB total → ~5 GiB in HBM with mmap
+- KV cache at 262K q8_0: ~12 GiB (fits in 1× 3090)
+- KV cache at 1M q8_0: ~32 GiB → spills to RAM
+
+Expected decode t/s at 1M with offload: **~30-100 t/s** (dominated by DDR4 bandwidth).
+
+#### Flash-Next on vLLM
+
+vLLM doesn't have direct KV-to-disk offload as of mid-2026. Workarounds:
+- **Run at native 262K**: `VLLM_CONTEXT=262144` (no offload, full speed)
+- **Lower gpu-memory-utilization** to leave VRAM headroom for KV: `--gpu-memory-utilization 0.6`
+- **CPU-offload model weights** (MoE experts): works via PLE (--enable-expert-parallel)
+
+For 1M Flash-Next you'll need ≥80 GiB VRAM (A100 or dual 4090s).
+
+### Performance model
+
+| KV cache size | Storage | Per-token access cost | Max decode t/s |
+|---|---|---|---:|
+| 12 GiB (262K) | HBM | ~50 ns | ~99 (GPU-bound) |
+| 32 GiB (1M) | DDR4 RAM | ~6 µs (30 page-faults × 200 ns) | ~167 t/s |
+| 100 GiB (3M, theoretical) | zram swap | ~15 µs | ~67 t/s |
+| 500 GiB (10M, theoretical) | disk swap on SSD | ~1.5 ms | ~0.7 t/s |
+
+### Adding more swap for very long contexts
+
+```bash
+# Create a 100 GiB swap file on a fast SSD (or your Optane if you have one)
+sudo fallocate -l 100G /swapfile-extra
+sudo chmod 600 /swapfile-extra
+sudo mkswap /swapfile-extra
+sudo swapon /swapfile-extra
+# Verify
+swapon -s
+free -h
+```
+
+This adds 100 GiB of disk-backed swap. KV pages beyond RAM will spill here with ~50µs access latency — usable for batch-1 decode at 1M+ but not ideal.
+
+### Recommended next steps
+
+- [ ] Run `HUIHUI_CTX_SCALE=1 / 2 / 4` and measure decode t/s + RAM usage at each scale
+- [ ] Try `--load-mode mlock` to pin model weights in RAM
+- [ ] Add a large swap file on a fast SSD if you want to test >1M context
+- [ ] On a box with ≥80 GiB VRAM: try `VLLM_CONTEXT=1048576` for Flash-Next 1M
+
+See `LONG_CONTEXT_OFFLOAD_2026-09-04.md` (in the desktop docs) for the detailed design doc and benchmark script.
