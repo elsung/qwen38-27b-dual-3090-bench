@@ -213,3 +213,13 @@ This adds 100 GiB of disk-backed swap. KV pages beyond RAM will spill here with 
 - [ ] On a box with ≥80 GiB VRAM: try `VLLM_CONTEXT=1048576` for Flash-Next 1M
 
 See `LONG_CONTEXT_OFFLOAD_2026-09-04.md` (in the desktop docs) for the detailed design doc and benchmark script.
+
+---
+
+## Bench results (this repo)
+
+See `LONG_CONTEXT_BENCH_2026-09-04.md` for actual numbers measured on this hardware:
+- **524K via YaRN linear scale=2**: works, 40-80 t/s decode, 53% GSM8K with CoD
+- **786K / 1M**: crashes at startup (llama.cpp b10753 can't allocate unified KV buffer > 24 GiB per GPU)
+
+Raw data: `bench/1m-bench/scale-2-524k.jsonl` (25 records: 24 throughput + 1 accuracy summary)
