@@ -2,6 +2,24 @@
 
 > The headline findings of this repo. Read this first.
 
+## Sources & references
+
+Every claim in this doc is grounded in a specific paper or upstream doc. Links:
+
+| Citation | Used for |
+|---|---|
+| **[Chain-of-Draft (CoD)](https://arxiv.org/abs/2502.18600)** — Zheng et al., 2025 | The 5-word-draft prompt technique (gave +54pp on huihui) |
+| **[NoWait paper](https://arxiv.org/abs/2506.08343)** — Wang et al., 2025 | Suppressing reflection tokens at the logit level (gave +10pp under sampling) |
+| **[Stop Overthinking survey](https://arxiv.org/abs/2503.16419)** — TMLR 2025 | The "awesome list" of efficient-reasoning methods |
+| **[Unsloth Dynamic 3.0 docs](https://unsloth.ai/docs/basics/dynamic-3.0-ggufs)** | Claims ">10% better top-1% accuracy at the same size" — we could NOT reproduce on GSM8K with CoD |
+| **[Qwen3.8-27B model README](https://huggingface.co/Qwen/Qwen3.8-27B)** (search for YaRN) | Official YaRN config for 1M context extension |
+| **[gsm8k_harness.py](../../bench/gsm8k_harness.py)** | Our eval harness (urllib only, no deps) |
+| **[matrix_bench.py](../../bench/matrix_bench.py)** | Throughput matrix harness |
+
+All numbers in this doc come from running the scripts in `bench/`. Reproducible end-to-end.
+
+> The headline findings of this repo. Read this first.
+
 ## TL;DR — what works
 
 1. **Chain-of-Draft (CoD) system prompt**: *“Think step by step, but write each step in at most 5 words. Be extremely concise.”*
