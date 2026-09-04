@@ -4,17 +4,55 @@
 This repo is a practical guide + working scripts for running the **Qwen3.8-27B / Qwen3.8 Flash-Next / GLM-5.3-Flash** model family on **dual NVIDIA RTX 3090 + Ryzen 7 5800XT + 128 GiB DDR4** (or similar 24 GiB ×2 GPU rigs). It is the result of several weeks of empirical benchmarking.
 The headline finding: **applying the Chain-of-Draft ("5-word drafts") system prompt to a 27B dense reasoning model takes GSM8K accuracy from 23% to 77%**, with no model changes and only a -8% decode t/s cost. That single change beats both Unsloth Dynamic v3.0 quants of the same model on the same benchmark.
 ---
-## At a glance
-| What | Result | See |
-|---|---|---|
-| **Chain-of-Draft prompt effect on GSM8K** | 23% → 77% (+54pp), -8% t/s | [REASONING.md](docs/REASONING.md) |
-| **3-way: huihui+CoD vs Unsloth v3.0 UD-Q4_K_XL vs UD-Q4_K_M** | huihui wins (77% vs 60% vs 67%) | [REASONING.md](docs/REASONING.md#3-way-comparison) |
-| **Best 27B throughput** | ~99 t/s tensor-split, q8_0 KV, draft-MTP n_max=3 | [MODELS.md](docs/MODELS.md) |
-| **Best Flash-Next throughput** | 60.86 t/s via vLLM Docker (`qwen3_5_mtp` spec) | [MODELS.md](docs/MODELS.md) |
-| **Full speed matrix (prefill/decode × ctx × concurrency)** | huihui 70–96 t/s, Flash-Next 50–80 t/s | [SPEED_MATRIX.md](docs/SPEED_MATRIX.md) |
-| **Long-context (1M via YaRN)** | vLLM supports, llama.cpp partial; VRAM-limited on dual 3090 | [LONG_CONTEXT.md](docs/LONG_CONTEXT.md) |
-| **Long-context (YaRN 524K)** | huihui works at 524K ctx (40-80 t/s, 53% GSM8K); 1M crashes (KV buffer > VRAM) | [LONG_CONTEXT_BENCH_2026-09-04.md](docs/LONG_CONTEXT_BENCH_2026-09-04.md) |
-| **RAM/disk offload (kv-offload)** | KV spills to host RAM; 200 GiB available (RAM+zram+swap); 30-100 t/s at 1M | [LONG_CONTEXT.md](docs/LONG_CONTEXT.md#offloading-context-to-ram--disk-alternative-path-to-1m) |
+## At a glance — best setting per model
+
+### Qwen3.8-27B huihui abliterated (daily driver) 🥇
+
+| Setting | Value |
+|---|---|
+| **Quant** | UD-Q4_K_XL v2.x, 17.4 GiB |
+| **Runtime** | llama.cpp b10753, tensor-split 1,1, q8_0 KV, draft-MTP 3 |
+| **Context** | **524K via YaRN** (scale=2, attn_factor=1.0) — new default |
+| **Reasoning** | **CoD system prompt** (client-side): *"Think step by step, but write each step in at most 5 words. Be extremely concise."* |
+| **Samplers** | T=1.0, top_p=0.95, top_k=20 (official Qwen thinking mode) |
+| **Speed** | ~80 t/s single, 278 t/s aggregate @ c=4 (native ctx), prefill 600+ t/s |
+| **Accuracy** | **80% GSM8K+CoD** (beats native 262K's 77%) |
+| **1M context?** | ❌ crashes — KV buffer > 24 GiB/GPU. Needs A100/H100 80GB. |
+
+```bash
+# Default (yarn 524K) — just run it:
+bash scripts/start-huihui-27b-abliterated.sh
+# Faster variant (native 262K, ~0-9% quicker, -3pp accuracy):
+HUIHUI_CTX_SCALE=1 bash scripts/start-huihui-27b-abliterated.sh
+```
+
+### Qwen3.8 Flash-Next (multi-user / concurrent) 
+
+| Setting | Value |
+|---|---|
+| **Quant** | FP8, 28.8 GiB |
+| **Runtime** | **vLLM Docker** (NOT llama.cpp — 15× slower there) |
+| **Context** | 16K default; 64K+ OOMs on dual 24 GiB |
+| **Speed** | 50-80 t/s single, **94 t/s aggregate @ c=4** |
+| **Accuracy** | 13% GSM8K+CoD — CoD doesn't help the MoE like the dense 27B |
+
+```bash
+VLLM_CONTEXT=16384 bash scripts/start-qwen38-flashnext.sh   # 1M needs 80GB+ VRAM
+```
+
+### GLM-5.3-Flash — not yet loadable (waiting on llama.cpp PR #27752)
+
+### Key findings (click for details)
+
+| Finding | See |
+|---|---|
+| CoD prompt: 23% → 77-80% GSM8K on huihui | [REASONING.md](docs/REASONING.md) |
+| YaRN modes sweep: attn_factor=1.0 wins at 524K | [YARN_COMPARISON](docs/YARN_COMPARISON_2026-09-04.md) |
+| Full speed matrix (prefill/decode × ctx × concurrency) | [SPEED_MATRIX.md](docs/SPEED_MATRIX.md) |
+| 1M context: crashes on 24 GiB GPUs; offload analysis | [LONG_CONTEXT.md](docs/LONG_CONTEXT.md) |
+| PCIe tuning: null result | [PCIE.md](docs/PCIE.md) |
+| huihui beats Unsloth Dynamic v3.0 quants | [REASONING.md](docs/REASONING.md#3-way-comparison) |
+
 ## Hardware tested
 ```
 CPU:  AMD Ryzen 7 5800XT (8c/16t)

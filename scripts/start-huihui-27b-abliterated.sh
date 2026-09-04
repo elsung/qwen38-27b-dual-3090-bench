@@ -47,10 +47,10 @@ MODEL=$MODELS_DIR/models/huihui-qwen38-27b-abliterated-gguf/Huihui-Qwen3.8-27B-a
 LLAMA=$WORKSPACE/inovello-flashnext/build-3090/bin/llama-server
 PORT="${LLAMA_HUIHUI_PORT:-8091}"
 
-CTX_SCALE="${HUIHUI_CTX_SCALE:-1}"
-ROPE_SCALING="${HUIHUI_ROPE_SCALING:-linear}"
+CTX_SCALE="${HUIHUI_CTX_SCALE:-2}"       # default 2 = 524K (best accuracy, ~zero speed cost)
+ROPE_SCALING="${HUIHUI_ROPE_SCALING:-yarn}"       # yarn preserves accuracy; linear loses ~10pp
 YARN_ORIG_CTX="${HUIHUI_YARN_ORIG_CTX:-262144}"
-YARN_ATTN_FACTOR="${HUIHUI_YARN_ATTN_FACTOR:-1.0}"
+YARN_ATTN_FACTOR="${HUIHUI_YARN_ATTN_FACTOR:-1.0}"  # 1.0 critical: 0.0 loses 13pp accuracy
 ROPE_FREQ_BASE="${HUIHUI_ROPE_FREQ_BASE:-}"
 
 case "$ROPE_SCALING" in
