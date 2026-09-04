@@ -51,6 +51,7 @@ VLLM_CONTEXT=16384 bash scripts/start-qwen38-flashnext.sh   # 1M needs 80GB+ VRA
 | Full speed matrix (prefill/decode × ctx × concurrency) | [SPEED_MATRIX.md](docs/SPEED_MATRIX.md) |
 | 1M context: crashes on 24 GiB GPUs; offload analysis | [LONG_CONTEXT.md](docs/LONG_CONTEXT.md) |
 | PCIe tuning: null result | [PCIE.md](docs/PCIE.md) |
+| Concurrency (OMP ×N, ST), realistic turn latency | [CONCURRENCY.md](docs/CONCURRENCY.md) |
 | huihui beats Unsloth Dynamic v3.0 quants | [REASONING.md](docs/REASONING.md#3-way-comparison) |
 
 ## Hardware tested
