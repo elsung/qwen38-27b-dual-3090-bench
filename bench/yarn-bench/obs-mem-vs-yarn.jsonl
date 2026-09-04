@@ -1,0 +1,1 @@
+{"type": "comparison", "baseline_acc": 0.5, "baseline_tps": 86.27835567533961, "obs_mem_acc": 0.5, "obs_mem_tps": 87.95972255777042, "yarn_best_acc": 0.8, "yarn_best_tps": 78, "verdict": "obs-mem-same-or-worse"}
