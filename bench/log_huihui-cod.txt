@@ -1,0 +1,35 @@
+[huihui-cod] loaded 10 problems x 3 runs on port 8091
+[huihui-cod] model: $MODELS_DIR/models/huihui-qwen38-27b-abliterated-gguf/Huihui-Qwen3.8-27B-abliterated-UD-Q4_K_XL.gguf
+  [huihui-cod] run0 q0 OK pred=18 gold=18 gen=559t @ 79.9t/s think_chars=1246 fr=stop
+  [huihui-cod] run0 q1 OK pred=3 gold=3 gen=184t @ 91.4t/s think_chars=517 fr=stop
+  [huihui-cod] run0 q2 OK pred=70000 gold=70000 gen=786t @ 88.2t/s think_chars=1689 fr=stop
+  [huihui-cod] run0 q3 XX pred=9 gold=540 gen=125t @ 82.0t/s think_chars=282 fr=stop
+  [huihui-cod] run0 q4 XX pred=60 gold=20 gen=194t @ 88.5t/s think_chars=435 fr=stop
+  [huihui-cod] run0 q5 OK pred=64 gold=64 gen=543t @ 87.8t/s think_chars=1342 fr=stop
+  [huihui-cod] run0 q6 OK pred=260 gold=260 gen=310t @ 86.3t/s think_chars=756 fr=stop
+  [huihui-cod] run0 q7 OK pred=160 gold=160 gen=804t @ 89.0t/s think_chars=1813 fr=stop
+  [huihui-cod] run0 q8 XX pred=180 gold=45 gen=538t @ 86.5t/s think_chars=1309 fr=stop
+  [huihui-cod] run0 q9 OK pred=460 gold=460 gen=284t @ 90.1t/s think_chars=711 fr=stop
+[huihui-cod] run0 SUMMARY: acc=0.70 @ 87.03 t/s mean_think_chars=1010 total_think_tokens=0
+  [huihui-cod] run1 q0 OK pred=18 gold=18 gen=464t @ 87.7t/s think_chars=953 fr=stop
+  [huihui-cod] run1 q1 OK pred=3 gold=3 gen=1863t @ 98.1t/s think_chars=5296 fr=stop
+  [huihui-cod] run1 q2 OK pred=70000 gold=70000 gen=695t @ 83.5t/s think_chars=1655 fr=stop
+  [huihui-cod] run1 q3 OK pred=540 gold=540 gen=187t @ 81.1t/s think_chars=491 fr=stop
+  [huihui-cod] run1 q4 XX pred=60 gold=20 gen=292t @ 85.8t/s think_chars=709 fr=stop
+  [huihui-cod] run1 q5 OK pred=64 gold=64 gen=541t @ 90.2t/s think_chars=1385 fr=stop
+  [huihui-cod] run1 q6 OK pred=260 gold=260 gen=160t @ 81.3t/s think_chars=416 fr=stop
+  [huihui-cod] run1 q7 XX pred=80 gold=160 gen=423t @ 82.4t/s think_chars=1078 fr=stop
+  [huihui-cod] run1 q8 XX pred=180 gold=45 gen=1075t @ 90.0t/s think_chars=2757 fr=stop
+  [huihui-cod] run1 q9 OK pred=460 gold=460 gen=694t @ 90.9t/s think_chars=1527 fr=stop
+[huihui-cod] run1 SUMMARY: acc=0.70 @ 90.22 t/s mean_think_chars=1626 total_think_tokens=0
+  [huihui-cod] run2 q0 OK pred=18 gold=18 gen=377t @ 80.7t/s think_chars=900 fr=stop
+  [huihui-cod] run2 q1 OK pred=3 gold=3 gen=116t @ 89.3t/s think_chars=227 fr=stop
+  [huihui-cod] run2 q2 OK pred=70000 gold=70000 gen=593t @ 92.8t/s think_chars=1165 fr=stop
+  [huihui-cod] run2 q3 OK pred=540 gold=540 gen=98t @ 92.8t/s think_chars=180 fr=stop
+  [huihui-cod] run2 q4 OK pred=20 gold=20 gen=276t @ 86.0t/s think_chars=705 fr=stop
+  [huihui-cod] run2 q5 OK pred=64 gold=64 gen=282t @ 79.5t/s think_chars=697 fr=stop
+  [huihui-cod] run2 q6 OK pred=260 gold=260 gen=374t @ 90.4t/s think_chars=905 fr=stop
+  [huihui-cod] run2 q7 OK pred=160 gold=160 gen=900t @ 93.7t/s think_chars=2023 fr=stop
+  [huihui-cod] run2 q8 XX pred=180 gold=45 gen=635t @ 92.5t/s think_chars=1613 fr=stop
+  [huihui-cod] run2 q9 OK pred=460 gold=460 gen=420t @ 86.9t/s think_chars=964 fr=stop
+[huihui-cod] run2 SUMMARY: acc=0.90 @ 89.48 t/s mean_think_chars=937 total_think_tokens=0

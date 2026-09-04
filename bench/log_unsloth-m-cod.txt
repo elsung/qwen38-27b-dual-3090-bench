@@ -1,0 +1,35 @@
+[unsloth-m-cod] loaded 10 problems x 3 runs on port 8091
+[unsloth-m-cod] model: $MODELS_DIR/models/unsloth-qwen38-27b-gguf/Qwen3.8-27B-UD-Q4_K_M.gguf
+  [unsloth-m-cod] run0 q0 XX pred=9 gold=18 gen=91t @ 90.3t/s think_chars=139 fr=stop
+  [unsloth-m-cod] run0 q1 OK pred=3 gold=3 gen=48t @ 88.7t/s think_chars=140 fr=stop
+  [unsloth-m-cod] run0 q2 OK pred=70000 gold=70000 gen=1161t @ 88.8t/s think_chars=2952 fr=stop
+  [unsloth-m-cod] run0 q3 OK pred=540 gold=540 gen=63t @ 85.3t/s think_chars=165 fr=stop
+  [unsloth-m-cod] run0 q4 XX pred=60 gold=20 gen=153t @ 90.1t/s think_chars=350 fr=stop
+  [unsloth-m-cod] run0 q5 OK pred=64 gold=64 gen=675t @ 84.1t/s think_chars=1754 fr=stop
+  [unsloth-m-cod] run0 q6 OK pred=260 gold=260 gen=399t @ 90.2t/s think_chars=1039 fr=stop
+  [unsloth-m-cod] run0 q7 XX pred=40 gold=160 gen=240t @ 100.3t/s think_chars=776 fr=stop
+  [unsloth-m-cod] run0 q8 OK pred=45 gold=45 gen=1300t @ 93.0t/s think_chars=3602 fr=stop
+  [unsloth-m-cod] run0 q9 OK pred=460 gold=460 gen=352t @ 88.9t/s think_chars=814 fr=stop
+[unsloth-m-cod] run0 SUMMARY: acc=0.70 @ 90.13 t/s mean_think_chars=1173 total_think_tokens=0
+  [unsloth-m-cod] run1 q0 OK pred=18 gold=18 gen=364t @ 80.7t/s think_chars=952 fr=stop
+  [unsloth-m-cod] run1 q1 OK pred=3 gold=3 gen=80t @ 72.6t/s think_chars=296 fr=stop
+  [unsloth-m-cod] run1 q2 OK pred=70000 gold=70000 gen=964t @ 91.1t/s think_chars=2580 fr=stop
+  [unsloth-m-cod] run1 q3 OK pred=540 gold=540 gen=71t @ 87.7t/s think_chars=192 fr=stop
+  [unsloth-m-cod] run1 q4 XX pred= gold=20 gen=778t @ 85.2t/s think_chars=2484 fr=stop
+  [unsloth-m-cod] run1 q5 OK pred=64 gold=64 gen=165t @ 83.4t/s think_chars=476 fr=stop
+  [unsloth-m-cod] run1 q6 XX pred=80 gold=260 gen=124t @ 92.6t/s think_chars=195 fr=stop
+  [unsloth-m-cod] run1 q7 OK pred=160 gold=160 gen=259t @ 81.2t/s think_chars=896 fr=stop
+  [unsloth-m-cod] run1 q8 XX pred=180 gold=45 gen=1066t @ 96.9t/s think_chars=2638 fr=stop
+  [unsloth-m-cod] run1 q9 XX pred=400 gold=460 gen=171t @ 101.3t/s think_chars=225 fr=stop
+[unsloth-m-cod] run1 SUMMARY: acc=0.60 @ 89.40 t/s mean_think_chars=1093 total_think_tokens=0
+  [unsloth-m-cod] run2 q0 OK pred=18 gold=18 gen=675t @ 87.4t/s think_chars=1670 fr=stop
+  [unsloth-m-cod] run2 q1 OK pred=3 gold=3 gen=51t @ 78.4t/s think_chars=182 fr=stop
+  [unsloth-m-cod] run2 q2 OK pred=70000 gold=70000 gen=539t @ 90.9t/s think_chars=1264 fr=stop
+  [unsloth-m-cod] run2 q3 XX pred=9 gold=540 gen=107t @ 90.6t/s think_chars=151 fr=stop
+  [unsloth-m-cod] run2 q4 XX pred=60 gold=20 gen=168t @ 87.5t/s think_chars=342 fr=stop
+  [unsloth-m-cod] run2 q5 OK pred=64 gold=64 gen=620t @ 88.7t/s think_chars=1702 fr=stop
+  [unsloth-m-cod] run2 q6 XX pred=80 gold=260 gen=123t @ 104.2t/s think_chars=161 fr=stop
+  [unsloth-m-cod] run2 q7 OK pred=160 gold=160 gen=688t @ 97.2t/s think_chars=1593 fr=stop
+  [unsloth-m-cod] run2 q8 OK pred=45 gold=45 gen=832t @ 81.2t/s think_chars=2490 fr=stop
+  [unsloth-m-cod] run2 q9 OK pred=460 gold=460 gen=181t @ 87.0t/s think_chars=387 fr=stop
+[unsloth-m-cod] run2 SUMMARY: acc=0.70 @ 88.79 t/s mean_think_chars=994 total_think_tokens=0

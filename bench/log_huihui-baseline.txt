@@ -1,0 +1,35 @@
+[huihui-baseline] loaded 10 problems x 3 runs on port 8091
+[huihui-baseline] model: $MODELS_DIR/models/huihui-qwen38-27b-abliterated-gguf/Huihui-Qwen3.8-27B-abliterated-UD-Q4_K_XL.gguf
+  [huihui-baseline] run0 q0 XX pred=9 gold=18 gen=148t @ 96.9t/s think_chars=256 fr=stop
+  [huihui-baseline] run0 q1 XX pred=1 gold=3 gen=111t @ 104.3t/s think_chars=310 fr=stop
+  [huihui-baseline] run0 q2 OK pred=70000 gold=70000 gen=1450t @ 90.5t/s think_chars=3794 fr=stop
+  [huihui-baseline] run0 q3 XX pred=9 gold=540 gen=115t @ 99.2t/s think_chars=141 fr=stop
+  [huihui-baseline] run0 q4 XX pred=60 gold=20 gen=221t @ 99.8t/s think_chars=552 fr=stop
+  [huihui-baseline] run0 q5 XX pred=3 gold=64 gen=396t @ 94.3t/s think_chars=976 fr=stop
+  [huihui-baseline] run0 q6 XX pred=80 gold=260 gen=123t @ 102.7t/s think_chars=159 fr=stop
+  [huihui-baseline] run0 q7 XX pred=200 gold=160 gen=388t @ 96.3t/s think_chars=894 fr=stop
+  [huihui-baseline] run0 q8 XX pred=180 gold=45 gen=601t @ 93.3t/s think_chars=1292 fr=stop
+  [huihui-baseline] run0 q9 XX pred=400 gold=460 gen=200t @ 102.3t/s think_chars=169 fr=stop
+[huihui-baseline] run0 SUMMARY: acc=0.10 @ 94.51 t/s mean_think_chars=854 total_think_tokens=0
+  [huihui-baseline] run1 q0 XX pred=9 gold=18 gen=132t @ 98.8t/s think_chars=205 fr=stop
+  [huihui-baseline] run1 q1 XX pred=1 gold=3 gen=60t @ 86.2t/s think_chars=134 fr=stop
+  [huihui-baseline] run1 q2 OK pred=70000 gold=70000 gen=1420t @ 86.2t/s think_chars=3844 fr=stop
+  [huihui-baseline] run1 q3 OK pred=540 gold=540 gen=120t @ 96.7t/s think_chars=188 fr=stop
+  [huihui-baseline] run1 q4 XX pred=60 gold=20 gen=241t @ 88.9t/s think_chars=605 fr=stop
+  [huihui-baseline] run1 q5 XX pred=3 gold=64 gen=379t @ 95.6t/s think_chars=873 fr=stop
+  [huihui-baseline] run1 q6 XX pred=80 gold=260 gen=130t @ 94.3t/s think_chars=176 fr=stop
+  [huihui-baseline] run1 q7 OK pred=160 gold=160 gen=407t @ 95.6t/s think_chars=978 fr=stop
+  [huihui-baseline] run1 q8 OK pred=45 gold=45 gen=520t @ 93.7t/s think_chars=1288 fr=stop
+  [huihui-baseline] run1 q9 XX pred=400 gold=460 gen=208t @ 103.7t/s think_chars=247 fr=stop
+[huihui-baseline] run1 SUMMARY: acc=0.40 @ 91.56 t/s mean_think_chars=853 total_think_tokens=0
+  [huihui-baseline] run2 q0 XX pred=9 gold=18 gen=167t @ 98.3t/s think_chars=363 fr=stop
+  [huihui-baseline] run2 q1 XX pred=1 gold=3 gen=120t @ 93.9t/s think_chars=347 fr=stop
+  [huihui-baseline] run2 q2 XX pred=120 gold=70000 gen=661t @ 93.2t/s think_chars=1333 fr=stop
+  [huihui-baseline] run2 q3 OK pred=540 gold=540 gen=72t @ 93.5t/s think_chars=156 fr=stop
+  [huihui-baseline] run2 q4 XX pred=60 gold=20 gen=242t @ 100.1t/s think_chars=467 fr=stop
+  [huihui-baseline] run2 q5 XX pred=3 gold=64 gen=295t @ 94.1t/s think_chars=553 fr=stop
+  [huihui-baseline] run2 q6 XX pred=80 gold=260 gen=128t @ 97.3t/s think_chars=151 fr=stop
+  [huihui-baseline] run2 q7 OK pred=160 gold=160 gen=374t @ 95.3t/s think_chars=904 fr=stop
+  [huihui-baseline] run2 q8 XX pred=180 gold=45 gen=514t @ 98.1t/s think_chars=1036 fr=stop
+  [huihui-baseline] run2 q9 XX pred=400 gold=460 gen=230t @ 97.4t/s think_chars=268 fr=stop
+[huihui-baseline] run2 SUMMARY: acc=0.20 @ 96.20 t/s mean_think_chars=557 total_think_tokens=0

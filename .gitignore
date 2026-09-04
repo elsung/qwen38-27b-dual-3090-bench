@@ -1,0 +1,27 @@
+# Build artifacts
+*.o
+*.so
+*.so.*
+*.a
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Logs and temp
+*.log
+*.tmp
+*.swp
+.DS_Store
+
+# Editor / OS
+.vscode/
+.idea/
+*~
+Thumbs.db
+
+# Local-only (never commit user-specific paths)
+.env
+*.local
