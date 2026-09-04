@@ -13,6 +13,7 @@ The headline finding: **applying the Chain-of-Draft ("5-word drafts") system pro
 | **Best Flash-Next throughput** | 60.86 t/s via vLLM Docker (`qwen3_5_mtp` spec) | [MODELS.md](docs/MODELS.md) |
 | **Full speed matrix (prefill/decode × ctx × concurrency)** | huihui 70–96 t/s, Flash-Next 50–80 t/s | [SPEED_MATRIX.md](docs/SPEED_MATRIX.md) |
 | **Long-context (1M via YaRN)** | vLLM supports, llama.cpp partial; VRAM-limited on dual 3090 | [LONG_CONTEXT.md](docs/LONG_CONTEXT.md) |
+| **RAM/disk offload (kv-offload)** | KV spills to host RAM; 200 GiB available (RAM+zram+swap); 30-100 t/s at 1M | [LONG_CONTEXT.md](docs/LONG_CONTEXT.md#offloading-context-to-ram--disk-alternative-path-to-1m) |
 ## Hardware tested
 ```
 CPU:  AMD Ryzen 7 5800XT (8c/16t)
