@@ -99,3 +99,23 @@ Skip until PR #27752 lands.
 | Multi-user concurrent (>=2 batches) | Flash-Next vLLM | Best at batch > 1 |
 | 262K context roleplay | huihui only | Flash-Next tested only to 16K |
 | VRAM-constrained single-GPU | huihui UD-Q4_K_XL on one card | Single-GPU flash-attention works |
+## SillyTavern + OMP profiles (per model + reasoning style)
+We ship two SillyTavern connection profiles pre-configured for these models. Both inject the
+Chain-of-Draft system prompt via `use_sysprompt: true`. Both use the **official Qwen3.8 thinking-mode
+samplers** (T=1.0, top_p=0.95, top_k=20, no presence penalty).
+| Profile | URL | Model field | OpenAI max context |
+|---|---|---|---:|
+| `Local Huihui ... (Tensor-Split + CoD)` | `http://127.0.0.1:8091/v1` | `huihui-qwen38-27b-abliterated` | 32,768 (huihui native 262K supported, just bump) |
+| `Local Qwen3.8-Flash-Next (FP8 vLLM + CoD)` | `http://127.0.0.1:8091/v1` | `/models/fp8` | 16,384 default; bump to 262K or 1M via launcher |
+Both profiles live at `$ST_DIR/data/default-user/OpenAI Settings/`:
+- `Local Huihui Qwen3.8-27B Abliterated (Tensor-Split + CoD).json`
+- `Local Qwen3.8-Flash-Next (FP8 vLLM + CoD).json`
+The CoD prompt injected in both:
+> Think step by step, but write each step in at most 5 words. Be extremely concise.
+For OMP on a Tailscale-connected device:
+# huihui (recommended for math/agentic)
+omp --base-url http://$TAILSCALE_IP:8091/v1 \
+  --system-prompt "Think step by step, but write each step in at most 5 words. Be extremely concise."
+# Flash-Next with 1M context (launcher must have VLLM_CONTEXT=1048576 set)
+  --max-context 1000000 \
+For curl / direct API: include `{"role":"system","content":"..."}` as the first message in `messages[]`.
