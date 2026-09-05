@@ -65,6 +65,8 @@ VLLM_CONTEXT=16384 bash scripts/start-qwen38-flashnext.sh   # 1M needs 80GB+ VRA
 | PCIe tuning: null result | [PCIE.md](docs/PCIE.md) |
 | Concurrency (OMP ×N, ST), realistic turn latency | [CONCURRENCY.md](docs/CONCURRENCY.md) |
 | huihui beats Unsloth Dynamic v3.0 quants | [REASONING.md](docs/REASONING.md#3-way-comparison) |
+| Flash-Next 176B: Part-2 expert-cache recipe (37-41 t/s class) | [FLASHNEXT_PART2_RECIPE.md](docs/FLASHNEXT_PART2_RECIPE.md) |
+| GLM-5.3-Flash 320B: setup + memory budget | [GLM53_FLASH.md](docs/GLM53_FLASH.md) |
 
 ## Hardware tested
 ```
