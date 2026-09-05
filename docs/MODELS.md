@@ -108,7 +108,7 @@ samplers** (T=1.0, top_p=0.95, top_k=20, no presence penalty).
 | Profile | URL | Model field | OpenAI max context |
 |---|---|---|---:|
 | `Local Huihui ... (Tensor-Split + CoD)` | `http://127.0.0.1:8091/v1` | `huihui-qwen38-27b-abliterated` | 32,768 (huihui native 262K supported, just bump) |
-| `Local Qwen3.8-Flash-Next (FP8 vLLM + CoD)` | `http://127.0.0.1:8091/v1` | `/models/fp8` | 16,384 default; bump to 262K or 1M via launcher |
+| `Local Qwen3.8-27B FP8 Dense (vLLM + CoD)` — *renamed from mislabeled 'Flash-Next'* | `http://127.0.0.1:8091/v1` | `/models/fp8` | 16,384 default; bump to 262K or 1M via launcher |
 Both profiles live at `$ST_DIR/data/default-user/OpenAI Settings/`:
 - `Local Huihui Qwen3.8-27B Abliterated (Tensor-Split + CoD).json`
 - `Local Qwen3.8-Flash-Next (FP8 vLLM + CoD).json`
