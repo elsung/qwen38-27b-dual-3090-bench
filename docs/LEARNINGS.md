@@ -38,18 +38,26 @@ vLLM is 15× faster than llama.cpp for Flash-Next. llama.cpp is the only viable 
 
 1. **`reasoning_effort=xhigh/medium/low` doesn't change behavior at T=0** on the Qwen3.8 chat template. Use the CoD prompt instead.
 2. **`reasoning_budget=N` is a no-op** on templates that don't emit `` tags. Use the Token-Budget prompt instead.
-3. **`--chat-template-kwargs` is a dead-flag in llama-server b10753** — parsed but never reaches the renderer. Inject CoD client-side.
+3. **`--chat-template-kwargs` works in llama-server b10753 — earlier "dead flag" verdict was wrong.**
+   CLI `--chat-template-kwargs '{"enable_thinking": false}'` sets a server-wide default and
+   per-request `chat_template_kwargs` in the body overrides it (both directions verified).
+   What does NOT work: flipping the default inside a `--chat-template-file` jinja — the
+   build's template surgery forces `<think>` open regardless. (Also: `--chat-template <path>`
+   treats the path string as a literal template — use `--chat-template-file` for files.)
 4. **Per-tensor allocator OOMs on qwen4exp models** under llama.cpp unless you CPU-offload experts. Use `--n-cpu-moe 40` early.
 5. **Draft-MTP requires the MTP head in the same GGUF** as the main model. The `--spec-type draft-mtp` flag won't work if the head isn't present.
 6. **Unsloth Dynamic v2.x huihui beats Unsloth Dynamic v3.0** on GSM8K + CoD. v3.0's marketing claims don't hold on this benchmark.
 7. **PCIe tuning has no effect on GPU-compute-bound or RAM-bandwidth-bound workloads.** Don't chase it.
-8. **Thinking exhausts client max_tokens → "empty stop"** on agentic/tool-calling
-   clients (OMP): hard turns burn 2-14K tokens in `<think>`, so `content=""`,
-   no tool_calls, `finish_reason=length` → client retry cap. Fix per-request with
-   `"chat_template_kwargs": {"enable_thinking": false}` in the body (works on
-   b10753 even though the CLI flag is dead) or max_tokens ≥ 8192. Verified 0/8
-   empty over an 8-turn agentic loop; 3/8 empty at max_tokens=900. Also: the
-   server 500s if history contains a malformed tool_call — fresh conversation
+8. **Thinking exhausts client max_tokens → "empty stop" — SOLVED server-side (2026-09-04).**
+   Agentic/tool-calling clients (OMP) died with `empty stop after retry cap`: hard turns
+   burn 2-14K tokens in `<think>` → `content=""`, no tool_calls, `finish_reason=length`.
+   3/8 turns empty in an 8-turn agentic loop at max_tokens=900. **Fix now baked into the
+   production launcher:** `--chat-template-kwargs '{"enable_thinking": false}'` makes
+   no-think the server default (HUIHUI_THINKING=1 to restore thinking-by-default; clients
+   opt in per-request with `"chat_template_kwargs": {"enable_thinking": true}` — verified
+   both directions). Re-ran the identical loop with zero client-side changes: 0/8 empty,
+   all tool calls clean. YaRN was NOT the culprit (needle 5/5 at ~40K real tokens, twice).
+   Also: the server 500s if history contains a malformed tool_call — fresh conversation
    is the only cure.
 
 ## Top 5 use-case decisions
