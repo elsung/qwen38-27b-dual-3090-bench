@@ -75,7 +75,7 @@ docker run -d --rm --gpus all --network host \
     --speculative-method qwen3_5_mtp \
     --num-speculative-tokens 3 \
     --port 8091
-**Measured**: **60.86 t/s** mean decode at batch=1, prompt<8K. Sweet spot is `--max-num-batched-tokens 4096`; bumping to 8192 doesn't help at batch=1.
+**Measured**: **60.86 t/s** mean decode at batch=1 (dense 27B FP8 — NOT Flash-Next), prompt<8K. Sweet spot is `--max-num-batched-tokens 4096`; bumping to 8192 doesn't help at batch=1.
 **Do not use llama.cpp** for this model on dual 3090 — the per-tensor allocator OOMs at load time unless you CPU-offload experts. With `--n-cpu-moe 40 --moe-expert-cache 16` you get ~4 t/s (15× slower than vLLM).
 ## Qwen3.8-27B (Unsloth Dynamic v3.0)
 For users who want the official Unsloth quant (better than v2.x in the authors' benchmarks, but our GSM8K bench shows huihui abliterated beats it).
