@@ -57,6 +57,11 @@ vLLM is 15× faster than llama.cpp for Flash-Next. llama.cpp is the only viable 
    opt in per-request with `"chat_template_kwargs": {"enable_thinking": true}` — verified
    both directions). Re-ran the identical loop with zero client-side changes: 0/8 empty,
    all tool calls clean. YaRN was NOT the culprit (needle 5/5 at ~40K real tokens, twice).
+   Second layer found via /slots params capture: the remote OMP client was sending
+   temperature 1.0 — the thinking-mode recipe. No-think + temp 1.0 on a 27B Q4
+   degenerates into repetition loops and malformed tool markup; no-think + temp 0.7
+   is the validated stable combo. Client sampler params override server defaults,
+   so this can only be fixed client-side (role: temp 0.7, top_p 0.95, max_tokens 8192).
    Also: the server 500s if history contains a malformed tool_call — fresh conversation
    is the only cure.
 
