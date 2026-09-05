@@ -34,7 +34,7 @@ gets you the best decode t/s for dense 27B models on dual 3090s (~99 t/s empty /
 
 vLLM is 15× faster than llama.cpp for Flash-Next. llama.cpp is the only viable option for Qwen3.8-27B (vLLM has no MTP for it in our build).
 
-## Top 7 gotchas
+## Top 8 gotchas
 
 1. **`reasoning_effort=xhigh/medium/low` doesn't change behavior at T=0** on the Qwen3.8 chat template. Use the CoD prompt instead.
 2. **`reasoning_budget=N` is a no-op** on templates that don't emit `` tags. Use the Token-Budget prompt instead.
@@ -43,6 +43,14 @@ vLLM is 15× faster than llama.cpp for Flash-Next. llama.cpp is the only viable 
 5. **Draft-MTP requires the MTP head in the same GGUF** as the main model. The `--spec-type draft-mtp` flag won't work if the head isn't present.
 6. **Unsloth Dynamic v2.x huihui beats Unsloth Dynamic v3.0** on GSM8K + CoD. v3.0's marketing claims don't hold on this benchmark.
 7. **PCIe tuning has no effect on GPU-compute-bound or RAM-bandwidth-bound workloads.** Don't chase it.
+8. **Thinking exhausts client max_tokens → "empty stop"** on agentic/tool-calling
+   clients (OMP): hard turns burn 2-14K tokens in `<think>`, so `content=""`,
+   no tool_calls, `finish_reason=length` → client retry cap. Fix per-request with
+   `"chat_template_kwargs": {"enable_thinking": false}` in the body (works on
+   b10753 even though the CLI flag is dead) or max_tokens ≥ 8192. Verified 0/8
+   empty over an 8-turn agentic loop; 3/8 empty at max_tokens=900. Also: the
+   server 500s if history contains a malformed tool_call — fresh conversation
+   is the only cure.
 
 ## Top 5 use-case decisions
 
