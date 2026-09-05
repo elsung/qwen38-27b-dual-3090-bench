@@ -62,6 +62,13 @@ vLLM is 15× faster than llama.cpp for Flash-Next. llama.cpp is the only viable 
    degenerates into repetition loops and malformed tool markup; no-think + temp 0.7
    is the validated stable combo. Client sampler params override server defaults,
    so this can only be fixed client-side (role: temp 0.7, top_p 0.95, max_tokens 8192).
+   Final resolution (fixed via Tailscale SSH into the Mac OMP): models.yml had
+   supportsTools: false (OMP in-band dialect mistrust of the native channel) and
+   reasoning: true which force-sends chat_template_kwargs enable_thinking true;
+   OMP reads models.yml at STARTUP only, so its 18:38 self-fix never took effect
+   (process up since Sep 3). Fix: supportsTools: true + extraBody temp 0.7 +
+   maxTokens 16384, kill/relaunch OMP. CoD lives in ~/.omp/agent/APPEND_SYSTEM.md.
+   macOS TCC blocks SSH from ~/Downloads (Operation not permitted) - GUI apps only.
    Also: the server 500s if history contains a malformed tool_call — fresh conversation
    is the only cure.
 
